@@ -23,6 +23,31 @@ Os dados não são sincronizados entre aparelhos. Exporte backups regularmente. 
 
 O Android Studio inclui o JDK adequado para o Gradle. Não é necessário hospedar o site nem conectar um celular para compilar.
 
+## Criar o projeto Android com Capacitor
+
+O Capacitor transforma o build web do PontoCerto em um projeto Android nativo. A configuração está em `capacitor.config.ts`:
+
+- `appId`: identificador permanente do app (`com.pontocerto.app`); mantenha-o nas próximas versões.
+- `appName`: nome exibido pelo Android (`PontoCerto`).
+- `webDir`: pasta do build web que será copiada para o app (`dist/client`).
+
+Na primeira configuração do projeto, na raiz do repositório, execute:
+
+```sh
+npm ci
+npm run build
+npx cap add android
+npx cap sync android
+```
+
+`npx cap add android` cria a pasta `android/` com o projeto nativo Gradle. Execute esse comando apenas uma vez. Se a pasta `android/` já existir, não a recrie: use `npm run android:sync` para compilar a aplicação web e atualizar os arquivos Android com o Capacitor.
+
+Para abrir o projeto nativo no Android Studio:
+
+```sh
+npm run android:open
+```
+
 ## Gerar o APK de depuração
 
 Na raiz do projeto, instale as dependências e gere o APK:
@@ -32,7 +57,7 @@ npm ci
 npm run android:apk
 ```
 
-O script compila a versão web, sincroniza os arquivos com o Capacitor e executa a compilação Android. O arquivo final será salvo em:
+O script compila a versão web, sincroniza os arquivos com o Capacitor e executa a compilação Android. Se o projeto Android ainda não foi criado, faça antes a configuração inicial descrita acima. O arquivo final será salvo em:
 
 ```text
 PontoCerto.apk
